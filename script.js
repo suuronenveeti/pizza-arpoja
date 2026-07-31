@@ -5,7 +5,7 @@ const pizzataytteet = [
   "Mozzarellajuusto", "Oliivi", "Paprika", "Parsa", "Pekoni", 
   "Pepperonimakkara", "Pizzasuikale", "Ranskalaiset", "Salami", 
   "Simpukka", "Sinihomejuusto", "Sipuli", "Tomaatti", "Tonnikala", 
-  "Tulinen kastike", "Vihreä pepperoni", "Suolakurkku", "BBQ-kastike"
+  "Tulinen kastike", "Vihreä pepperoni", "Suolakurkku", "BBQ-kastike", "Punasipuli"
 ];
 
 const juomat = [
