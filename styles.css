@@ -1,0 +1,109 @@
+/* (c) 2026 suuronenveeti. Licensed under GPLv3. Credit: https://github.com/suuronenveeti */
+@font-face {
+  font-family: "Roboto-Regular";
+  src: url("../Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+html {
+  --primary-bg-color: rgb(255, 255, 255);
+  --primary-text-color: rgb(0, 0, 0);
+  --primary-hover-color: rgba(0, 0, 0, 0.05);
+}
+
+html.dark-mode {
+  --primary-bg-color: rgb(0, 0, 0);
+  --primary-text-color: rgb(255, 255, 255);
+  --primary-hover-color: rgba(255, 255, 255, 0.1);
+}
+
+button {
+  background-color: var(--primary-text-color);
+  color: var(--primary-bg-color);
+  border-radius: 15px;
+  width: fit-content; 
+  max-width: calc(100%); 
+  height: 30px;
+  border: none;
+  font-family: inherit;
+  cursor: pointer;
+  margin-block: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+a {
+  display: inline-block;
+  color: inherit;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-decoration: underline 1px var(--primary-text-color);
+  text-underline-offset: 4px;
+  transition: none;
+}
+
+a:hover {
+  text-decoration: underline 2px var(--primary-text-color);
+  background-color: var(--primary-hover-color);
+}
+
+body {
+  transition: background-color 0.6s ease;
+  font-family: "Roboto-Regular", Tahoma, sans-serif;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color); 
+  animation: fadeInAnimation ease 0.6s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 1rem;
+  height: 100%;
+}
+
+p,
+div,
+span {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 0.75rem;
+}
+
+img,
+video,
+canvas,
+svg {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  margin-bottom: 1rem;
+}

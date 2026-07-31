@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza-arpoja</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+
+    <script>
+        if (localStorage.getItem("theme") === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        }
+    </script>
+</head>
+<body>
+    <button id="theme-toggle">Vaihda teemaa</button>
+
+    <h1>Pizza-arpoja</h1>
+
+    <button onclick="generoiPizza()">Arvo pizza</button>
+
+    <div id="tulosAlue" style="display: none;">
+        <h2>Pizzasi täytteet:</h2>
+        <ul id="tayteLista"></ul>
+        <div id="mausteOsuus"></div>
+    </div>
+
+
+</body>
+</html>
