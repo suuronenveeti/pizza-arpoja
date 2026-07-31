@@ -8,6 +8,7 @@
     <script src="script.js"></script>
 
     <script>
+        // Ladataan tumma tila heti alussa välkkymisen estämiseksi
         if (localStorage.getItem("theme") === "dark") {
             document.documentElement.classList.add("dark-mode");
         }
@@ -20,12 +21,18 @@
 
     <button onclick="generoiPizza()">Arvo pizza</button>
 
+    <!-- Pizzan ja mausteiden tulosalue -->
     <div id="tulosAlue" style="display: none;">
         <h2>Pizzasi täytteet:</h2>
         <ul id="tayteLista"></ul>
         <div id="mausteOsuus"></div>
     </div>
 
+    <!-- Juoman tulosalue -->
+    <div id="juomaAlue" style="display: none;">
+        <h2>Juoma:</h2>
+        <ul id="juomaLista"></ul>
+    </div>
 
 </body>
 </html>

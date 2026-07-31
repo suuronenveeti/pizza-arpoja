@@ -1,94 +1,139 @@
 const pizzataytteet = [
   "Ananas", "Banaani", "Broileri", "Fetajuusto", "Herkkusieni", 
-  "Jalopeno", "Jauheliha", "Juusto", "Jäävuorisalaatti", "Kananmuna", 
+  "Jalapeno", "Jauheliha", "Juusto", "Jäävuorisalaatti", "Kananmuna", 
   "Katkarapu", "Kebabliha", "Kermakastike", "Kurkku", "Maissi", 
-  "Mozarellajuusto", "Oliivi", "Paprika", "Parsa", "Pekoni", 
+  "Mozzarellajuusto", "Oliivi", "Paprika", "Parsa", "Pekoni", 
   "Pepperonimakkara", "Pizzasuikale", "Ranskalaiset", "Salami", 
   "Simpukka", "Sinihomejuusto", "Sipuli", "Tomaatti", "Tonnikala", 
-  "Tulinen kastike", "Vihreä pepperoni"
+  "Tulinen kastike", "Vihreä pepperoni", "Suolakurkku", "BBQ-kastike"
+];
+
+const juomat = [
+  "Jäävesi", "Cola virvoitusjuoma", "Appelsiini virvoitusjuoma", "Sitrus virvoitusjuoma", "Vichy"
 ];
 
 let animaatioKaynnissa = false;
 
+// Apufunktio taulukon sekoittamiseen
+function sekoitaTaulukko(array) {
+  const kopio = [...array];
+  for (let i = kopio.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [kopio[i], kopio[j]] = [kopio[j], kopio[i]];
+  }
+  return kopio;
+}
+
+// Funktio, jota HTML-painikkeesi kutsuu
 function generoiPizza() {
   if (animaatioKaynnissa) return;
   animaatioKaynnissa = true;
 
   const listaElementti = document.getElementById('tayteLista');
   const mausteElementti = document.getElementById('mausteOsuus');
+  const juomaListaElementti = document.getElementById('juomaLista');
   
+  // Näytetään molemmat tulosalueet
   document.getElementById('tulosAlue').style.display = 'block';
+  document.getElementById('juomaAlue').style.display = 'block';
   
-  // Näytetään mausteosio ja asetetaan alkuperäinen otsikko animaation ajaksi
+  // Alustetaan mausteosio valmiiksi animaation ajaksi
   mausteElementti.style.display = 'block';
   mausteElementti.innerHTML = '<h2>Mausteet:</h2><ul id="mausteLista"></ul>';
   const mausteListaElementti = document.getElementById('mausteLista');
 
-  let tayteKierrokset = 0;
+  // Arvotaan lopulliset tulokset valmiiksi heti alussa
+  const lopullisetTaytteet = sekoitaTaulukko(pizzataytteet).slice(0, 4);
+  
+  const lopullisetMausteet = [];
+  if (Math.random() < 0.5) lopullisetMausteet.push("Oregano");
+  if (Math.random() < 0.5) lopullisetMausteet.push("Valkosipuli");
+
+  const lopullinenJuoma = juomat[Math.floor(Math.random() * juomat.length)];
+
+  let kierrokset = 0;
   const maksimiKierrokset = 10;
 
-  // --- Vaihe 1: Päätäytteiden arvonta (10 kierrosta) ---
-  const tayteInterval = setInterval(() => {
-    tayteKierrokset++;
+  // Yhteinen animaatio kaikelle
+  const animaatioInterval = setInterval(() => {
+    kierrokset++;
 
-    const sekoitetut = [...pizzataytteet].sort(() => 0.5 - Math.random());
-    const valitutTaytteet = sekoitetut.slice(0, 4);
-    
+    // --- TÄYTTEET ---
+    const nykyisetTaytteet = (kierrokset === maksimiKierrokset) 
+      ? lopullisetTaytteet 
+      : sekoitaTaulukko(pizzataytteet).slice(0, 4);
+
     listaElementti.innerHTML = '';
-    valitutTaytteet.forEach(t => {
+    nykyisetTaytteet.forEach(t => {
       const li = document.createElement('li');
       li.textContent = t;
       listaElementti.appendChild(li);
     });
 
-    if (tayteKierrokset === maksimiKierrokset) {
-      clearInterval(tayteInterval);
+    // --- MAUSTEET JA JUOMA ANIMATION AIKANA ---
+    if (kierrokset < maksimiKierrokset) {
+      // Vilkutetaan mausteita
+      const valiaikaisetMausteet = [];
+      if (Math.random() < 0.5) valiaikaisetMausteet.push("Oregano");
+      if (Math.random() < 0.5) valiaikaisetMausteet.push("Valkosipuli");
       
-      // --- Vaihe 2: Mausteiden arvonta (10 kierrosta) ---
-      let mausteKierrokset = 0;
-      let valitutMausteet = [];
+      mausteListaElementti.innerHTML = '';
+      valiaikaisetMausteet.forEach(m => {
+        const li = document.createElement('li');
+        li.textContent = m;
+        mausteListaElementti.appendChild(li);
+      });
       
-      const mausteInterval = setInterval(() => {
-        mausteKierrokset++;
-        
-        valitutMausteet = [];
-        if (Math.random() < 0.5) valitutMausteet.push("Oregano");
-        if (Math.random() < 0.5) valitutMausteet.push("Valkosipuli");
-        
-        mausteListaElementti.innerHTML = '';
-        
-        if (valitutMausteet.length > 0) {
-          valitutMausteet.forEach(m => {
-            const li = document.createElement('li');
-            li.textContent = m;
-            mausteListaElementti.appendChild(li);
-          });
-        }
+      // Varmistetaan tasan 2 riviä pitämään tilaa vain animaation AJAKSI
+      while (mausteListaElementti.children.length < 2) {
+        const li = document.createElement('li');
+        li.innerHTML = '&nbsp;';
+        li.style.listStyleType = 'none';
+        mausteListaElementti.appendChild(li);
+      }
 
-        // Kun mausteetkin on arvottu 10 kertaa, animaatio loppuu
-        if (mausteKierrokset === maksimiKierrokset) {
-          clearInterval(mausteInterval);
-          
-          // Jos lopputulokseen ei tullut mausteita, korvataan koko sisältö otsikolla "Ei mausteita"
-          if (valitutMausteet.length === 0) {
-            mausteElementti.innerHTML = '<h2>Ei mausteita</h2>';
-          }
-          
-          animaatioKaynnissa = false;
-        }
-      }, 100);
+      // Vilkutetaan juomaa listassa animaation aikana
+      juomaListaElementti.innerHTML = '';
+      const satunnainenJuoma = juomat[Math.floor(Math.random() * juomat.length)];
+      const liJuoma = document.createElement('li');
+      liJuoma.textContent = satunnainenJuoma;
+      juomaListaElementti.appendChild(liJuoma);
+    } else {
+      // --- VIIMEINEN KIERROS: Lukitaan lopulliset tulokset ---
+      clearInterval(animaatioInterval);
+      
+      if (lopullisetMausteet.length > 0) {
+        // Jos mausteita tuli, luodaan puhdas lista ILMAN ylimääräisiä tyhjiä rivejä
+        mausteElementti.innerHTML = '<h2>Mausteet:</h2><ul id="mausteLista"></ul>';
+        const lopullinenMausteLista = document.getElementById('mausteLista');
+        
+        lopullisetMausteet.forEach(m => {
+          const li = document.createElement('li');
+          li.textContent = m;
+          lopullinenMausteLista.appendChild(li);
+        });
+      } else {
+        // Jos mausteita ei tullut, korvataan koko sisältö pelkällä otsikolla ilman tyhjiä rivejä
+        mausteElementti.innerHTML = '<h2>Ei mausteita</h2>';
+      }
+
+      // Lukitaan lopullinen juoma listaan ja poistetaan animaation aikaiset hyppelyt
+      juomaListaElementti.innerHTML = '';
+      const liLopullinenJuoma = document.createElement('li');
+      liLopullinenJuoma.textContent = lopullinenJuoma;
+      juomaListaElementti.appendChild(liLopullinenJuoma);
+      
+      animaatioKaynnissa = false;
     }
   }, 100);
 }
 
-// Teemanvaihto kun sivu on latautunut
+// Teemanvaihto
 document.addEventListener("DOMContentLoaded", function() {
     const btn = document.getElementById("theme-toggle");
-
     if (btn) {
         btn.addEventListener("click", function() {
             document.documentElement.classList.toggle("dark-mode");
-            
             if (document.documentElement.classList.contains("dark-mode")) {
                 localStorage.setItem("theme", "dark");
             } else {
