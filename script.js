@@ -123,3 +123,42 @@ if (btn) {
         }
     });
 }
+
+document.getElementById("jaa-nappi")?.addEventListener("click", (e) => {
+  const lista = Array.from(document.querySelectorAll("#tayteLista li")).map(li => li.innerText.trim().toLowerCase());
+  
+  if (lista.length === 0) {
+    const alkuperainenTeksti = e.target.innerText;
+    e.target.innerText = "Arvo pizza ensin!";
+    setTimeout(() => { e.target.innerText = alkuperainenTeksti; }, 2000);
+    return;
+  }
+
+  // Korvataan viimeinen pilkku "ja"-sanalla
+  const taytteet = lista.length > 1 
+    ? lista.slice(0, -1).join(", ") + " ja " + lista.slice(-1) 
+    : lista;
+
+  // Haetaan juoma vain jos se on oikeasti arvottu listaan
+  const juomaElement = document.getElementById("juomaLista")?.querySelector("li")?.innerText.trim();
+  let juomaOsa = "";
+
+  if (juomaElement) {
+    const juoma = juomaElement.startsWith("Vichy") ? juomaElement : juomaElement.toLowerCase();
+    juomaOsa = ` ja juomana ${juoma}`;
+  }
+
+  // Muotoillaan viesti dynaamisesti juoman tilan mukaan
+  const viesti = `Minun pizzani on ${taytteet}${juomaOsa} | https://suuronenveeti.github.io/pizza-arpoja/`;
+
+  if (navigator.share) {
+    navigator.share({ text: viesti });
+  } else {
+    navigator.clipboard.writeText(viesti).then(() => {
+      const alkuperainen = e.target.innerText;
+      e.target.innerText = "Kopioitu!";
+      setTimeout(() => { e.target.innerText = alkuperainen; }, 1500);
+    });
+  }
+});
+
