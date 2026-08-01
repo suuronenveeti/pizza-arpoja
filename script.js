@@ -149,7 +149,7 @@ document.getElementById("jaa-nappi")?.addEventListener("click", (e) => {
   }
 
   // Muotoillaan viesti dynaamisesti juoman tilan mukaan
-  const viesti = `Minun pizzani on ${taytteet}${juomaOsa} | https://suuronenveeti.github.io/pizza-arpoja/`;
+  const viesti = `Minun pizzani on ${taytteet}${juomaOsa}! | https://suuronenveeti.github.io/pizza-arpoja/`;
 
   if (navigator.share) {
     navigator.share({ text: viesti });
