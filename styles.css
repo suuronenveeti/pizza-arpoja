@@ -21,21 +21,32 @@ html.dark-mode {
 button {
   background-color: var(--primary-text-color);
   color: var(--primary-bg-color);
-  border-radius: 15px;
-  width: fit-content; 
-  max-width: calc(100%); 
-  height: 30px;
+  border-radius: 999px;
+  min-width: 180px; 
+  width: auto;
+  max-width: 100%; 
+  height: 35px;
   border: none;
   font-family: inherit;
   cursor: pointer;
-  margin-block: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
+  margin: 2px 0;
+  padding-left: 20px;
+  padding-right: 20px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  text-align: center;
+}
 
 a {
   display: inline-block;
@@ -61,6 +72,9 @@ body {
   animation: fadeInAnimation ease 0.6s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes fadeInAnimation {
@@ -91,6 +105,7 @@ span {
 
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 p {

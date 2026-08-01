@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza-arpoja</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
-
     <script>
         // Ladataan tumma tila heti alussa välkkymisen estämiseksi
         if (localStorage.getItem("theme") === "dark") {
@@ -14,18 +12,21 @@
         }
     </script>
 </head>
-<body>
-    <button id="theme-toggle">Vaihda teemaa</button>
+<body>  
 
     <h1>Pizza-arpoja</h1>
 
-    <button onclick="generoiPizza()">Arvo pizza</button>
+    <!-- Valinnat -->
+    <div class="button-group">
+        <button id="pizza-4-btn" onclick="generoiPizza(4)">Arvo 4 täytteen pizza</button>
+        <button id="pizza-3-btn" onclick="generoiPizza(3)">Arvo 3 täytteen pizza</button>
+        <button id="juoma-btn" onclick="generoiJuoma()">Arvo juoma</button>
+    </div>
 
-    <!-- Pizzan ja mausteiden tulosalue -->
+    <!-- Pizzan tulosalue -->
     <div id="tulosAlue" style="display: none;">
         <h2>Pizzasi täytteet:</h2>
         <ul id="tayteLista"></ul>
-        <div id="mausteOsuus"></div>
     </div>
 
     <!-- Juoman tulosalue -->
@@ -34,5 +35,9 @@
         <ul id="juomaLista"></ul>
     </div>
 
+    <button id="theme-toggle">Vaihda teemaa</button>
+
+    <!-- Skripti ladataan vasta kun HTML on luettu -->
+    <script src="script.js"></script>
 </body>
 </html>
