@@ -1,25 +1,29 @@
-const pizzataytteet = [
-  "Ananas", "Anjovis", "Aurinkokuivattu tomaatti", "Avokado", "Banaani", 
-  "BBQ-kastike", "Chili", "Extrajuusto", "Feta", "Halloumijuusto", 
-  "Herkkusieni", "Härkäpapuvalmiste", "Ilmakuivattu kinkku", "Jalapeno", "Jauheliha", 
-  "Jokirapu", "Jäävuorisalaatti", "Kana", "Kananmuna", "Kantarelli", 
-  "Kapris", "Katkarapu", "Kebab", "Kermakastike", "Kinkku", 
-  "Leipäjuusto", "Lohi", "Maissi", "Mozzarella", "Muikku", 
-  "Naudanliha", "Oliivi", "Paprika", "Parsa", "Pekoni", 
-  "Pepperoni", "Persikka", "Pesto", "Punasipuli", "Ranskalaiset", 
-  "Rucola", "Salami", "Savuporo", "Simpukka", "Sinihomejuusto", 
-  "Sipuli", "Smetana", "Suolakurkku", "Suolapähkinä", "Tomaatti", 
-  "Tonnikala", "Tuore herkkusieni", "Tulinen kastike", "Valkosipuli", "Vihreä pepperoni", 
-  "Vuohenjuusto"
+// Täytteet jaettuna kahteen ryhmään
+const vegeTaytteet = [
+  "Ananas", "Aurinkokuivattu tomaatti", "Avokado", "Banaani", "BBQ-kastike", 
+  "Chili", "Extrajuusto", "Feta", "Halloumijuusto", "Herkkusieni", 
+  "Härkäpapuvalmiste", "Jalapeno", "Jäävuorisalaatti", "Kananmuna", 
+  "Kantarelli", "Kapris", "Kermakastike", "Leipäjuusto", "Maissi", 
+  "Mozzarella", "Oliivi", "Paprika", "Parsa", "Persikka", "Pesto", 
+  "Punasipuli", "Ranskalaiset", "Rucola", "Sinihomejuusto", "Sipuli", 
+  "Smetana", "Suolakurkku", "Suolapähkinä", "Tomaatti", "Tuore herkkusieni", 
+  "Tulinen kastike", "Valkosipuli", "Vihreä pepperoni", "Vuohenjuusto"
+];
+
+const lihaTaytteet = [
+  "Anjovis", "Ilmakuivattu kinkku", "Jauheliha", "Jokirapu", "Kana", 
+  "Katkarapu", "Kebab", "Kinkku", "Lohi", "Muikku", "Naudanliha", 
+  "Pekoni", "Pepperoni", "Salami", "Savuporo", "Simpukka", "Tonnikala"
 ];
 
 const juomat = [
-   "Jäävesi", "Cola-virvoitusjuoma", "Appelsiinivirvoitusjuoma", "Sitrusvirvoitusjuoma", "Vichy"
+   "Jäävesi", "Cola-virvoitusjuoma", "Appelsiinivirvoitusjuoma", "Sitrusvirvoitusjuoma", "Vichy", "Viini", "Olut"
 ];
 
 let pizzaAnimaatioKaynnissa = false;
 let juomaAnimaatioKaynnissa = false;
 
+// Sekoitetaan taulukko satunnaiseen järjestykseen
 function sekoitaTaulukko(array) {
    const kopio = [...array];
    for (let i = kopio.length - 1; i > 0; i--) {
@@ -29,14 +33,29 @@ function sekoitaTaulukko(array) {
    return kopio;
 }
 
+// Logiikka täytteiden arpomiseen Vege-tilan mukaan
+function arvoTasapainotetutTaytteet(maara) {
+  const vegeTilaOnPaalla = document.getElementById('vege-cb')?.checked ?? false;
+
+  // 1. Jos Vege-tila on päällä -> Vain kasvistäytteitä
+  if (vegeTilaOnPaalla) {
+    return sekoitaTaulukko(vegeTaytteet).slice(0, maara);
+  }
+
+  // 2. Jos Vege-tila on pois päältä -> Täysin satunnainen pizza kaikista täytteistä
+  const kaikkiTaytteet = [...vegeTaytteet, ...lihaTaytteet];
+  return sekoitaTaulukko(kaikkiTaytteet).slice(0, maara);
+}
+
 function generoiPizza(maara) {
    if (pizzaAnimaatioKaynnissa) return;
+   
+   const lopullisetTaytteet = arvoTasapainotetutTaytteet(maara);
    pizzaAnimaatioKaynnissa = true;
-
+   
    const listaElementti = document.getElementById('tayteLista');
    document.getElementById('tulosAlue').style.display = 'block';
 
-   const lopullisetTaytteet = sekoitaTaulukko(pizzataytteet).slice(0, maara);
    let kierrokset = 0;
    const maksimiKierrokset = 10;
 
@@ -45,7 +64,7 @@ function generoiPizza(maara) {
 
      const nykyisetTaytteet = (kierrokset === maksimiKierrokset) 
        ? lopullisetTaytteet 
-       : sekoitaTaulukko(pizzataytteet).slice(0, maara);
+       : arvoTasapainotetutTaytteet(maara);
 
      listaElementti.innerHTML = '';
      nykyisetTaytteet.forEach(t => {
@@ -92,7 +111,7 @@ function generoiJuoma() {
    }, 100);
 }
 
-// Teemanvaihto alustetaan heti kun skripti ladataan
+// Teemanvaihto
 const btn = document.getElementById("theme-toggle");
 if (btn) {
     btn.addEventListener("click", () => {

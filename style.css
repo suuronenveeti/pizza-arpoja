@@ -1,4 +1,4 @@
-/* (c) 2026 suuronenveeti. Licensed under GPLv3. Credit: https://github.com/suuronenveeti */
+/* (c) 2026 suuronenveeti. Licensed under GPLv3. Credit: https://github.com */
 @font-face {
   font-family: "Roboto-Regular";
   src: url("Roboto-Regular.ttf") format("truetype");
@@ -10,12 +10,34 @@ html {
   --primary-bg-color: rgb(255, 255, 255);
   --primary-text-color: rgb(0, 0, 0);
   --primary-hover-color: rgba(0, 0, 0, 0.05);
+  /* Pakottaa selaimen oletuskomponentit vaaleiksi, mikä poistaa sinisen värin */
+  color-scheme: light;
 }
 
 html.dark-mode {
   --primary-bg-color: rgb(0, 0, 0);
   --primary-text-color: rgb(255, 255, 255);
   --primary-hover-color: rgba(255, 255, 255, 0.1);
+  /* Pakottaa selaimen oletuskomponentit tummiksi dark-modessa */
+  color-scheme: dark;
+}
+
+/* --- SIISTIT DEFAULT CHECKBOXIT (EI FLEXBOXIA, EI SINISTÄ) --- */
+label {
+  display: inline-block; /* Antaa labelin toimia tekstinä, joka keskittyy nätisti bodyn mukana */
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 6px 0; /* Antaa vähän pystysuoraa tilaa kytkinriveille */
+  text-align: left; /* Pitää huolen että teksti alkaa siististi laatikon vierestä */
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-right: 8px; /* Tekee siistin pienen raon laatikon ja tekstin väliin */
+  vertical-align: middle; /* Pakottaa laatikon täydellisesti samalle korkeudelle tekstin kanssa */
+  accent-color: var(--primary-text-color); /* Muuttaa täyttövärin mustaksi tai valkoiseksi */
 }
 
 button {
